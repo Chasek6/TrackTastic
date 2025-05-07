@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .flicker {
+      animation: flicker 1.5s infinite;
+    }
+    .glass {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-800 to-gray-900 text-white min-h-screen p-6">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-4xl font-bold mb-6">📁 Job Tracker</h1>
+
+    <!-- Add Job Form -->
+    <form method="POST" action="/add-job" enctype="multipart/form-data" class="grid gap-4 mb-8 bg-white bg-opacity-5 p-6 rounded-lg">
+      <input class="p-2 rounded bg-gray-100 text-black" type="text" name="company" placeholder="Company" required />
+      <input class="p-2 rounded bg-gray-100 text-black" type="text" name="position" placeholder="Position" required />
+      <select class="p-2 rounded bg-gray-100 text-black" name="status" required>
+        <option value="pending">Pending</option>
+        <option value="in_process">In Process</option>
+        <option value="interviewing">Interviewing</option>
+        <option value="hired">Hired</option>
+        <option value="not_hired">Not Hired</option>
+      </select>
+      <input class="p-2 rounded bg-gray-100 text-black" type="date" name="date" required />
+      <textarea class="p-2 rounded bg-gray-100 text-black" name="notes" placeholder="Notes..."></textarea>
+      <label class="text-sm">Resume (optional): <input type="file" name="resume" /></label>
+      <label class="text-sm">Cover Letter (optional): <input type="file" name="coverLetter" /></label>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 p-2 rounded text-white">Add Job</button>
+    </form>
+
+    <!-- Job List -->
+    <div class="grid gap-6">
+      <% if (jobs.length === 0) { %>
+        <p>No jobs yet. Start applying!</p>
+      <% } else { %>
+        <% jobs.forEach(job => { %>
+          <div class="glass p-5 rounded-lg shadow-md">
+            <div class="flex justify-between items-center">
+              <div>
+                <h2 class="text-2xl font-semibold"><%= job.position %> @ <%= job.company %></h2>
+                <p class="text-sm text-gray-300">Date: <%= job.date %></p>
+              </div>
+              <div class="flex items-center gap-2">
+                <% let status = job.status ? job.status.trim().toLowerCase() : 'unknown'; %>
+                <div class="w-3 h-3 rounded-full transition 
+                  <% if (status === 'pending') { %> bg-green-400 flicker <% } 
+                  else if (status === 'in_process') { %> bg-yellow-400 flicker <% } 
+                  else if (status === 'interviewing') { %> bg-purple-400 <% } 
+                  else if (status === 'hired') { %> bg-blue-500 <% } 
+                  else if (status === 'not_hired') { %> bg-red-500 <% } 
+                  else { %> bg-gray-400 <% } %>">
+                </div>
+                <span class="capitalize"><%= status.replace('_', ' ') %></span>
+              </div>
+            </div>
+
+            <% if (job.notes) { %>
+              <p class="mt-2 text-sm"><%= job.notes %></p>
+            <% } %>
+
+            <div class="mt-3 grid grid-cols-2 gap-4 text-sm">
+              <% if (job.resume) { %>
+                <div class="glass p-2 text-white">
+                  <p>Resume:</p>
+                  <embed src="/<%= job.resume %>" type="application/pdf" class="w-full h-24 rounded" />
+                </div>
+              <% } %> 
+              <% if (job.coverLetter) { %>
+                <div class="glass p-2 text-white">
+                  <p>Cover Letter:</p>
+                  <embed src="/<%= job.coverLetter %>" type="application/pdf" class="w-full h-24 rounded" />
+                </div>
+              <% } %>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-4 flex gap-4">
+              <form method="POST" action="/remove-job" class="inline">
+                <input type="hidden" name="position" value="<%= job.position %>" />
+                <input type="hidden" name="company" value="<%= job.company %>" />
+                <button class="text-red-400 hover:underline">🗑 Remove</button>
+              </form>
+              <form method="POST" action="/archive-job" class="inline">
+                <input type="hidden" name="position" value="<%= job.position %>" />
+                <input type="hidden" name="company" value="<%= job.company %>" />
+                <button class="text-yellow-300 hover:underline">📦 Archive</button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

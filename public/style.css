@@ -1,0 +1,48 @@
+body {
+    background: #0f2027;
+    background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .status {
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 0.5rem;
+    display: inline-block;
+  }
+  
+  .status-pending {
+    color: #4caf50;
+    animation: flicker 1s infinite alternate;
+  }
+  
+  .status-in_process {
+    color: #ffc107;
+    animation: flicker 1.2s infinite alternate;
+  }
+  
+  .status-interviewing {
+    color: orange;
+    animation: flicker 1.5s infinite alternate;
+  }
+  
+  .status-hired {
+    color: #00bcd4;
+  }
+  
+  .status-not_hired {
+    color: #f44336;
+  }
+  
+  @keyframes flicker {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+  }

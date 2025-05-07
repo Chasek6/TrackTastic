@@ -1,0 +1,34 @@
+[
+  {
+    "company": "Space X",
+    "position": "Space Man ",
+    "status": "Pending",
+    "date": "2025-05-06",
+    "notes": "for the job\r\n"
+  },
+  {
+    "company": "Temple ",
+    "position": "Doctors",
+    "status": "pending",
+    "date": "2025-05-07",
+    "notes": "THE UI needs to be better its ugly --n test run "
+  },
+  {
+    "company": "Test Comany ",
+    "position": "lookinhg",
+    "status": "pending ",
+    "date": "2025-05-06",
+    "notes": "idk work in process ",
+    "resume": "uploads/4f97f25ff04c172255b99f63b97938c0",
+    "coverLetter": "uploads/885c13a05d4c53470eb4bc8d139372e6"
+  },
+  {
+    "company": "space x",
+    "position": "space man",
+    "status": "in_process",
+    "date": "2025-05-07",
+    "notes": "idk",
+    "resume": null,
+    "coverLetter": null
+  }
+]
